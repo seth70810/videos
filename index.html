@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=1280, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>MyAppealCoach — Moot Court Simulator Demonstration</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -217,9 +217,34 @@ body{font-family:var(--serif);background:#000;color:var(--ink)}
 /* Error display */
 #err{position:absolute;top:10px;left:10px;z-index:99999;background:#fff;color:#8b1a1a;padding:8px 14px;font-family:var(--mono);font-size:11px;display:none;max-width:600px;border:1px solid #8b1a1a}
 #err.show{display:block}
+
+/* ── Small-screen handling ─────────────────────────────────────── */
+/* The 1280×720 stage scales uniformly (see fitStage). On phones the
+   viewport=device-width fix makes it fit; in portrait a landscape
+   canvas letterboxes, so prompt for rotation. */
+#rotate-hint{display:none}
+@media (max-width:820px) and (orientation:portrait){
+  #rotate-hint{
+    display:flex;position:fixed;inset:0;z-index:9999;
+    background:var(--mr-bg,#0a1628);color:var(--mr-text,#ebe8de);
+    flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:8vw;gap:20px;
+  }
+  #rotate-hint .rh-icon{font-size:15vw;color:var(--mr-gold,#c9a84c);
+    line-height:1;animation:rhspin 2.4s ease-in-out infinite}
+  #rotate-hint h2{font-family:var(--serif);font-weight:500;font-size:6vw;letter-spacing:-.01em}
+  #rotate-hint p{font-family:var(--serif);font-style:italic;
+    color:var(--mr-text-dim,#a09b8b);font-size:4vw;max-width:24em;line-height:1.5}
+}
+@keyframes rhspin{0%,42%{transform:rotate(0)}58%,100%{transform:rotate(90deg)}}
 </style>
 </head>
 <body>
+<div id="rotate-hint" aria-hidden="true">
+  <div class="rh-icon">⟳</div>
+  <h2>Rotate your device</h2>
+  <p>This demonstration is built for a wide screen. Turn your phone sideways for the full view.</p>
+</div>
 
 <audio id="bgm" preload="auto">
   <source id="bgm-src" src="" type="audio/mpeg" />
